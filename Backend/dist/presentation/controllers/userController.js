@@ -55,7 +55,6 @@ class UserController {
             try {
                 console.log(req);
                 const result = yield this.UserUseCase.loginUserWithDat(req);
-                console.log(result);
                 if (result.status) {
                     res.cookie("access_token", result.accesstoken, {
                         maxAge: 48 * 60 * 60 * 1000,
@@ -164,16 +163,26 @@ class UserController {
                 const { id, title } = req.body;
                 const imageFiles = req.files;
                 let imageUrl;
-                if (imageFiles) {
+                if (imageFiles && imageFiles.length > 0) {
                     const imageBuffer = imageFiles[0].buffer;
                     imageUrl = yield (0, cloudinaryService_1.uploadImage)(imageBuffer, "picCloud");
                 }
-                const imageToUpdate = {
-                    id,
-                    userId,
-                    imageUrl,
-                    title
-                };
+                let imageToUpdate;
+                if (imageUrl) {
+                    imageToUpdate = {
+                        id,
+                        userId,
+                        imageUrl,
+                        title
+                    };
+                }
+                else {
+                    imageToUpdate = {
+                        id,
+                        userId,
+                        title
+                    };
+                }
                 const result = yield this.UserUseCase.updateImage(imageToUpdate);
                 if (result.status)
                     return res.status(statusCode_1.ENUM.OK).json({ success: true, image: result.data, message: result.message });

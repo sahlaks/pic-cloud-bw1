@@ -153,8 +153,8 @@ export class UserUseCase {
   async updateImage(imageData: {
     id: string;
     userId: string;
-    imageUrl?: string | undefined;
-    title?: string | undefined;
+    imageUrl?: string;
+    title?: string;
   }): Promise<{ status: boolean; data?: IImages; message?: string }> {
     const { id, userId, imageUrl, title } = imageData;
     try {

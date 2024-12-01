@@ -13,12 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generatePassword = generatePassword;
+exports.checkPasswrdMatch = checkPasswrdMatch;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 function generatePassword(password) {
     return __awaiter(this, void 0, void 0, function* () {
         const salt = yield bcrypt_1.default.genSalt(10);
         const hashedPassword = yield bcrypt_1.default.hash(password, salt);
-        console.log(hashedPassword);
         return hashedPassword;
+    });
+}
+function checkPasswrdMatch(password, existingPassword) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield bcrypt_1.default.compare(password, existingPassword);
     });
 }

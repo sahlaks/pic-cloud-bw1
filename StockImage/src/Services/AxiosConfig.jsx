@@ -4,7 +4,7 @@ import { generateAccessToken, userLogout } from "../API/userApi";
 
 //baseURL:'http://localhost:5000',
 export const axiosInstance = axios.create({
-    baseURL:'https://piccloud.shop',   
+    baseURL:'http://localhost:5000',   
      headers:{
          'Content-Type':'application/json'
      },

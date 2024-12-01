@@ -21,16 +21,16 @@ export class UserController {
       const result = await this.UserUseCase.registrationUser(req.body);
       if (result.status) {
         res.cookie("access_token", result.accesstoken, {
+            maxAge:  48*60*60*1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          path: "/",
         });
         res.cookie("refresh_token", result.refreshtoken, {
+            maxAge: 5*60*1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          path: "/",
         });
         return res
           .status(ENUM.OK)
@@ -49,17 +49,20 @@ export class UserController {
   ): Promise<Response | void> {
     try {
         console.log(req);
+
         
       const result = await this.UserUseCase.loginUserWithDat(req);
       console.log(result);
       
       if (result.status) {
         res.cookie("access_token", result.accesstoken, {
+            maxAge: 48*60*60*1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",
         });
         res.cookie("refresh_token", result.refreshtoken, {
+            maxAge: 5*60*1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",

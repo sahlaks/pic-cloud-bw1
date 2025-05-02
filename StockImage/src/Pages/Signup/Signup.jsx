@@ -59,6 +59,7 @@ export default function SignUpPage() {
       ...userDetails,
       [name]: value,
     });
+    
 
     let errorMessage = '';
     if (name === 'email') {

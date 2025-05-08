@@ -51,6 +51,7 @@ const Dashboard = () => {
     if (newImage) {
       formData.append("images", newImage);
     }
+    
     try {
       setLoading(true);
       const res = await updateImage(formData);
@@ -198,7 +199,7 @@ const Dashboard = () => {
                       </button>
                     </div>
                   </div>
-                  <img src={item.url} alt={item.title} className="object-cover rounded-md mb-4 h-45 w-50" />
+                  <img src={item.url} alt={item.title} className="rounded-md mb-4 max-w-[350px] max-h-[350px] object-cover" />
                   <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
                 </div>
               ))

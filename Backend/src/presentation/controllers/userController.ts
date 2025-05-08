@@ -25,16 +25,16 @@ export class UserController {
       const result = await this.UserUseCase.registrationUser(req.body);
       if (result.status) {
         res.cookie("access_token", result.accesstoken, {
+            maxAge:  48*60*60*1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          path: "/",
         });
         res.cookie("refresh_token", result.refreshtoken, {
+            maxAge: 5*60*1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          path: "/",
         });
         return res
           .status(ENUM.OK)
@@ -53,17 +53,18 @@ export class UserController {
   ): Promise<Response | void> {
     try {
         console.log(req);
+
         
       const result = await this.UserUseCase.loginUserWithDat(req);
-      console.log(result);
-      
       if (result.status) {
         res.cookie("access_token", result.accesstoken, {
+            maxAge: 48*60*60*1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",
         });
         res.cookie("refresh_token", result.refreshtoken, {
+            maxAge: 5*60*1000,
           httpOnly: true,
           secure: true,
           sameSite: "none",
@@ -154,17 +155,27 @@ async deleteImage(req: AuthRequest, res: Response, next: NextFunction): Promise<
             const userId = req.user?.id as string
             const {id, title} = req.body;
             const imageFiles = req.files as Express.Multer.File[];
-            let imageUrl: string | undefined;
-            if (imageFiles) {
+            let imageUrl;
+            if (imageFiles && imageFiles.length > 0) {
                 const imageBuffer = imageFiles[0].buffer
                 imageUrl = await uploadImage(imageBuffer, "picCloud");
             }
-           const imageToUpdate = {
+            let imageToUpdate;
+
+            if(imageUrl){
+           imageToUpdate = {
             id,
             userId,
             imageUrl,
             title 
            }
+            }   else{
+                imageToUpdate = {
+                    id,
+                    userId,
+                    title 
+                   }
+            }
             const result = await this.UserUseCase.updateImage(imageToUpdate)
             if(result.status) return res.status(ENUM.OK).json({success: true, image: result.data, message: result.message})
             return res.status(ENUM.BAD_REQUEST).json({success: false, message: result.message})

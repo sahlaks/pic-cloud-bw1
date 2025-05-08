@@ -11,7 +11,7 @@ function jwtCreation(id) {
         id: id
     };
     try {
-        const accessToken = jsonwebtoken_1.default.sign(payload, process.env.AUTHTOKEN_KEY, { expiresIn: '15m' });
+        const accessToken = jsonwebtoken_1.default.sign(payload, process.env.AUTHTOKEN_KEY, { expiresIn: '1h' });
         return accessToken;
     }
     catch (error) {

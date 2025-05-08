@@ -18,6 +18,10 @@ export class UserController {
     next: NextFunction
   ): Promise<Response | void> {
     try {
+      console.log('inside controller');
+      
+      console.log(req.body);
+      
       const result = await this.UserUseCase.registrationUser(req.body);
       if (result.status) {
         res.cookie("access_token", result.accesstoken, {

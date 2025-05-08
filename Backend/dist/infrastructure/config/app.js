@@ -31,6 +31,9 @@ const createServer = () => {
         app.use(express_1.default.json());
         app.use(express_1.default.urlencoded({ extended: true }));
         app.use('/api', userRoutes_1.default);
+        app.get('/', (req, res) => {
+            res.send('Welcome to the PicCloud API!');
+        });
         //error middleware
         app.use((err, req, res, next) => {
             console.error(err.stack);

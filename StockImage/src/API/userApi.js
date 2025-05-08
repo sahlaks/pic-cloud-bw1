@@ -4,7 +4,11 @@ import { axiosInstance } from "../Services/AxiosConfig";
 //SIGNUP
 export const userSignup = async (data) => {
   try {
+    console.log(data);
+    
     const res = await axiosInstance.post(API_ENDPOINTS.USER_SIGNUP, data);
+    console.log(res);
+    
     return res.data;
   } catch (err) {
     throw err;
